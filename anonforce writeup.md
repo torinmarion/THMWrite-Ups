@@ -1,5 +1,9 @@
 # TryHackMe Anonforce Writeup
 
+Room: https://tryhackme.com/room/bsidesgtanonforce
+
+## Initial Scanning
+
 Starting off by running `nmap -p- -T4` to quickly scan the target for all ports gives us only two services hosted:
 
 `port 21 - FTP`
@@ -7,6 +11,8 @@ Starting off by running `nmap -p- -T4` to quickly scan the target for all ports 
 and
 
 `port 22 - SSH`
+
+## Anonymous FTP Login
 
 We don't have any credentials for SSH yet, so I'm going to try an "anonymous" login on the FTP server.
 
@@ -21,6 +27,8 @@ Most of these directories looks pretty standard, however there is a "notread" di
 ![Screenshot_2023-06-23_19_02_32](https://github.com/torinmarion/THMWrite-Ups/assets/33186777/ccb5afa9-a992-49a9-a8af-abf2963478fa)
 
 Inside of the "notread" directory are two files. "backup.pgp" and "private.asc", using `mget *` will attempt to download all files in the current FTP directory.
+
+## PGP Hash Cracking
 
 A `.asc` file is a armored ASCII file used by PGP. For our purposes, it will be used to decrypt the `.pgp` file.
 
@@ -38,11 +46,15 @@ Once that's imported, we then use it to open up `backup.pgp`
 
 `gpg --decrypt backup.pgp`
 
-The output of this is the target's `/etc/shadow` file, which contains some password hashes. Specifially a `$6$` for root, and `$1$` for the user melodias. `$6$` being a SHA-512 hash, and `$1$` being MD5 a hash.
+## Cracking /etc/shadow Hashes
+
+The output of this is the target's `/etc/shadow` file, which contains some password hashes. Specifially a `$6$` for root, and `$1$` for the user melodias. `$6$` being a SHA-512 hash, and `$1$` being a MD5 hash.
 
 Paste that output into a file, and then we'll run `john` on it.
 
 `john hashes --wordlist=/usr/share/wordlists/rockyou.txt`
+
+## Root SSH Login
 
 Which then gives us the root creds.
 

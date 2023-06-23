@@ -24,7 +24,7 @@ Inside of the "notread" directory are two files. "backup.pgp" and "private.asc",
 
 A `.asc` file is a armored ASCII file used by PGP. For our purposes, it will be used to decrypt the `.pgp` file.
 
-First we use `gpg2jonn private.asc > privatehash`
+First we use `gpg2john private.asc > privatehash`
 
 then
 

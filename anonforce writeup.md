@@ -11,4 +11,9 @@ and
 We don't have any credentials for SSH yet, so I'm going to try an "anonymous" login on the FTP server.
 
 `ftp $IP`
-![Screenshot_2023-06-23_18_51_39](https://github.com/torinmarion/THMWrite-Ups/assets/33186777/b9b5b8db-b223-4b25-b978-d2d74ad2020e)
+
+Type in "anonymous" for the username, and just hit enter when it asks for a password.
+
+![248427123-b9b5b8db-b223-4b25-b978-d2d74ad2020e](https://github.com/torinmarion/THMWrite-Ups/assets/33186777/eacb5b06-fc9c-4ecd-a2cb-431da8be3cd4)
+
+Most of these directories looks pretty standard, however there is a "notread" directory that pops out.

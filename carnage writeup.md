@@ -47,19 +47,31 @@ Click that new column, and it should show the other malicious domains.
 Using that first `TLSv1.2` protocol packet from the previous question, follow the TCP stream from it, and read through the output. The answer pops up multiple times.
 
 ## Question 9:  What are the two IP addresses of the Cobalt Strike servers? Use VirusTotal (the Community tab) to confirm if IPs are identified as Cobalt Strike C2 servers. (answer format: enter the IP addresses in sequential order) 
+
 Quick google search shows that Cobalt Strike C2 servers commonly use the following ports: `22, 80, 443, 3389, 8080, and 50050`. I'm going to first search for two of the HTTP ports 80/8080 and the high port 50050. `tcp.port==80 or tcp.port==8080 or tcp.port==50050` Click on the `Statistics` tab, and then the `Conversations` tab. Click `Limit to display filter, then click the `IPv4` tab, and sort based on packet count. The two IP addresses you're looking for both have the same first octet.
 
 ## Question 10: What is the Host header for the first Cobalt Strike IP address from the previous question?
 
-Filter on the first IP, `ip.src
+Type in `ip.addr == 185.106.96.158` into the filter bar, look for the first `GET` packet, and look under `Hypertext Transfer Protocol`, then the `Hosts` row.
 
 ## Question 11: What is the domain name for the first IP address of the Cobalt Strike server? You may use VirusTotal to confirm if it's the Cobalt Strike server (check the Community tab). 
 
+Type in `dns.a == $FIRSTC2IP`, then look for the `Name` row.
+
 ## Question 12: What is the domain name of the second Cobalt Strike server IP?  You may use VirusTotal to confirm if it's the Cobalt Strike server (check the Community tab). 
+
+Do the same thing as the previous question.
 
 ## Question 13: What is the domain name of the post-infection traffic?
 
+Type in `http.request.method == "POST"` into the filter bar, filter on `Host` then sort by time. Keep scrolling until you see the change in domain name.
+
 ## Question 14: What are the first eleven characters that the victim host sends out to the malicious domain involved in the post-infection traffic? 
+
+Type in `http.host == $POSTINFECTDOMAINNAME`, then the `Request URI` row. the first chunk after the `POST` will be the answer.
+
+## Question 15: What was the length for the first packet sent out to the C2 server? 
+
 
 
 ## Question ?: Looks like there was some malicious spam (malspam) activity going on. What was the first MAIL FROM address observed in the traffic? 
